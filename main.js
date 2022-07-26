@@ -56,14 +56,20 @@ app.whenReady().then(() => {
           $p = document.createElement('p')
           document.body.appendChild($p)
           $p.innerHTML = '${steps[i].name || 'UNKNOWN'}'
+
           $p.style.position = "absolute"
           $p.style.display = "block"
-          $p.style.fontSize = "3em"
+          $p.style.top = "0"
+          $p.style.left = "0"
+          $p.style.zIndex = "9999"
+
+          $p.style.fontSize = "45px"
           $p.style.fontWeight = "bold"
+          $p.style.fontFamily = "sans-serif"
           $p.style.color = "white"
-          $p.style.opacity = "50%"
-          $p.style.top = "20px"
-          $p.style.right = "10px"
+          $p.style.backgroundColor = "#444444"
+          $p.style.padding = "10px 35px"
+          $p.style.margin = "0"
         `)
       }, 0)
     })
