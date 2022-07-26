@@ -53,23 +53,23 @@ app.whenReady().then(() => {
     stepViews[i].webContents.on('dom-ready', () => {
       setTimeout(() => {
         stepViews[i].webContents.executeJavaScript(`
-          $p = document.createElement('p')
-          document.body.appendChild($p)
-          $p.innerHTML = '${steps[i].name || 'UNKNOWN'}'
+          $name = document.createElement('div')
+          document.body.appendChild($name)
+          $name.innerHTML = '${steps[i].name || 'UNKNOWN'}'
 
-          $p.style.position = "absolute"
-          $p.style.display = "block"
-          $p.style.top = "0"
-          $p.style.left = "0"
-          $p.style.zIndex = "9999"
+          $name.style.position = "absolute"
+          $name.style.display = "block"
+          $name.style.top = "0"
+          $name.style.left = "0"
+          $name.style.zIndex = "9999"
 
-          $p.style.fontSize = "45px"
-          $p.style.fontWeight = "bold"
-          $p.style.fontFamily = "sans-serif"
-          $p.style.color = "white"
-          $p.style.backgroundColor = "#444444"
-          $p.style.padding = "10px 35px"
-          $p.style.margin = "0"
+          $name.style.fontSize = "45px"
+          $name.style.fontWeight = "bold"
+          $name.style.fontFamily = "sans-serif"
+          $name.style.color = "white"
+          $name.style.backgroundColor = "#444444"
+          $name.style.padding = "10px 150px 10px 50px"
+          $name.style.margin = "0"
         `)
       }, 0)
     })
