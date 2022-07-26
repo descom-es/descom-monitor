@@ -1,2 +1,2 @@
-# descom-monitor
+# Descom Monitor
 Kiosk electron app for displaying websites.
