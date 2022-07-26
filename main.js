@@ -83,6 +83,7 @@ async function main() {
     window.setBrowserView(stepViews[index])
 
     resizeView(window, stepViews[index])
+    checkCritical(stepViews[index])
 
     await sleep(steps[index].interval || defaultInterval)
 
@@ -104,4 +105,18 @@ function resizeView(window, view) {
     width: window.getContentBounds().width,
     height: window.getContentBounds().height,
   })
+}
+function checkCritical(view) {
+  view.webContents.executeJavaScript(`
+    $deploy = document.getElementsByClassName('cwdb-single-value-number-value')[0]
+    $online = document.getElementsByClassName('cwdb-single-value-number-value')[1]
+
+    if ($deploy.innerHTML == '0' || $online.innerHTML == '0') {
+      $name.style.color = "red"
+    } else if ($deploy.innerHTML !== $online.innerHTML) {
+      $name.style.color = "orange"
+    } else {
+      $name.style.color = "white"
+    }
+  `)
 }
