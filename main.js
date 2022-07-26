@@ -70,6 +70,19 @@ app.whenReady().then(() => {
           $name.style.backgroundColor = "#444444"
           $name.style.padding = "10px 150px 10px 50px"
           $name.style.margin = "0"
+
+          $critical = document.createElement("div")
+          document.body.appendChild($critical)
+          $critical.innerHTML = "ALERTA"
+          $critical.style.color = "red"
+          $critical.style.position = "absolute"
+          $critical.style.fontSize = "20vw"
+          $critical.style.opacity = "35%"
+          $critical.style.zIndex = "9999"
+          $critical.style.top = "50px"
+          $critical.style.left = "50%"
+          $critical.style.transform = "translateX(-50%)"
+          $critical.style.visibility = "hidden"
         `)
       }, 0)
     })
@@ -83,9 +96,19 @@ async function main() {
     window.setBrowserView(stepViews[index])
 
     resizeView(window, stepViews[index])
-    checkCritical(stepViews[index])
+
+    let checkInterval = null
+    if (steps[index].checkCritical) {
+      checkInterval = setInterval(() => {
+        checkCritical(stepViews[index])
+      }, 3000)
+    }
 
     await sleep(steps[index].interval || defaultInterval)
+
+    if (steps[index].checkCritical) {
+      clearInterval(checkInterval)
+    }
 
     if (index == steps.length - 1) {
       index = 0
@@ -113,10 +136,13 @@ function checkCritical(view) {
 
     if ($deploy.innerHTML == '0' || $online.innerHTML == '0') {
       $name.style.color = "red"
+      $critical.style.visibility = "visible"
     } else if ($deploy.innerHTML !== $online.innerHTML) {
       $name.style.color = "orange"
+      $critical.style.visibility = "hidden"
     } else {
       $name.style.color = "white"
+      $critical.style.visibility = "hidden"
     }
   `)
 }
