@@ -2,7 +2,7 @@
 
 Kiosk electron app for displaying websites.
 
-# Config
+# Configuration
 
 Fill a file named `config.json` with the following content:
 
