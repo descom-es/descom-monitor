@@ -1,6 +1,7 @@
 .DS_Store
 .env
 .gclient_done
+config.json
 **/.npmrc
 .tags*
 .vs/
