@@ -136,10 +136,12 @@ function checkCritical(view) {
 
     if ($deploy.innerHTML == '0' || $online.innerHTML == '0') {
       $name.style.color = "red"
+      $critical.style.color = "red"
       $critical.style.visibility = "visible"
     } else if ($deploy.innerHTML !== $online.innerHTML) {
       $name.style.color = "orange"
-      $critical.style.visibility = "hidden"
+      $critical.style.color = "orange"
+      $critical.style.visibility = "visible"
     } else {
       $name.style.color = "white"
       $critical.style.visibility = "hidden"
