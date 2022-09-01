@@ -11,5 +11,7 @@
   "devDependencies": {
     "electron": "^19.0.9"
   },
-  "dependencies": {}
+  "dependencies": {
+    "http": "0.0.1-security"
+  }
 }

@@ -1,6 +1,21 @@
 const { app, BrowserView, BrowserWindow } = require('electron')
 const fs = require('fs')
 
+// const http = require('http')
+
+// const hostname = 'localhost'
+// const port = 8080
+
+// const server = http.createServer((req, res) => {
+//   res.statusCode = 200
+//   res.setHeader('Content-Type', 'text/html')
+//   res.end(fs.readFileSync('./admin.html'))
+// })
+
+// server.listen(port, hostname, () => {
+//   console.log(`El servidor se está ejecutando en http://${hostname}:${port}/`)
+// })
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
@@ -93,6 +108,7 @@ app.whenReady().then(() => {
 
 async function main() {
   while (true) {
+    reloadGraphs(stepViews[index])
     window.setBrowserView(stepViews[index])
 
     resizeView(window, stepViews[index])
@@ -147,4 +163,9 @@ function checkCritical(view) {
       $critical.style.visibility = "hidden"
     }
   `)
+}
+function reloadGraphs(view) {
+  view.webContents.executeJavaScript(
+    `document.querySelector(".awsui-button.awsui-button-no-text.awsui-button-variant-normal.awsui-hover-child-icons").click()`
+  )
 }
