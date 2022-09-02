@@ -1,20 +1,34 @@
 const { app, BrowserView, BrowserWindow } = require('electron')
 const fs = require('fs')
 
-// const http = require('http')
+const http = require('http')
+const server = http
+  .createServer(function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.write('DescomMonitor Websocket')
+    res.end()
+  })
+  .listen(8080)
+const { Server } = require('socket.io')
+const io = new Server(server)
 
-// const hostname = 'localhost'
-// const port = 8080
+io.on('connection', (socket) => {
+  console.log('User Connected')
 
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200
-//   res.setHeader('Content-Type', 'text/html')
-//   res.end(fs.readFileSync('./admin.html'))
-// })
+  socket.on('stop_carousel', () => {
+    stopCarousel()
+  })
+  socket.on('start_carousel', () => {
+    startCarousel()
+  })
+  socket.on('update_carousel', (data) => {
+    updateCarousel(data)
+  })
 
-// server.listen(port, hostname, () => {
-//   console.log(`El servidor se está ejecutando en http://${hostname}:${port}/`)
-// })
+  socket.on('disconnect', () => {
+    console.log('User Disconnected')
+  })
+})
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -78,12 +92,12 @@ app.whenReady().then(() => {
           $name.style.left = "0"
           $name.style.zIndex = "9999"
 
-          $name.style.fontSize = "45px"
+          $name.style.fontSize = "35px"
           $name.style.fontWeight = "bold"
           $name.style.fontFamily = "sans-serif"
           $name.style.color = "white"
-          $name.style.backgroundColor = "#444444"
-          $name.style.padding = "10px 150px 10px 50px"
+          $name.style.backgroundColor = "#16191F"
+          $name.style.padding = "8px 150px 8px 50px"
           $name.style.margin = "0"
 
           $critical = document.createElement("div")
