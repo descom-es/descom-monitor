@@ -88,7 +88,6 @@ let isRunning = true
 
 app.whenReady().then(() => {
   setup()
-  next(slides[0])
 
   // setTimeout(() => {
   //   set(0)
@@ -112,19 +111,23 @@ function setup() {
   window = createWindow()
   index = 0
 
-  steps.map((step, index) => {
-    const slide = (slides[index] = {
-      index: index,
-      config: step,
-      view: createView(window, step.url),
+  setTimeout(() => {
+    steps.map((step, index) => {
+      const slide = (slides[index] = {
+        index: index,
+        config: step,
+        view: createView(window, step.url),
+      })
+
+      slide.view.webContents.on('dom-ready', () => {
+        setTimeout(() => {
+          ViewTools.drawTitle(slide.view, slide.config.name)
+        }, 0)
+      })
     })
 
-    slide.view.webContents.on('dom-ready', () => {
-      setTimeout(() => {
-        ViewTools.drawTitle(slide.view, slide.config.name)
-      }, 0)
-    })
-  })
+    next(slides[0])
+  }, 5000)
 }
 
 // TODO: CAROUSEL
