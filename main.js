@@ -171,8 +171,6 @@ function set(slideIndex) {
       ViewTools.checkCritical(currentSlide.view)
     }, 3000)
   }
-
-  show(currentSlide.config)
 }
 
 function pause() {
