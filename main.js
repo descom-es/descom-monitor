@@ -159,7 +159,8 @@ function set(slideIndex) {
   pause()
   currentSlide = slides.find((slide) => slide.index === slideIndex)
   index = slideIndex
-  resume()
+
+  show(currentSlide.config)
 }
 
 function pause() {
