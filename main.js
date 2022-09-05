@@ -162,6 +162,16 @@ function set(slideIndex) {
   currentSlide = slides.find((slide) => slide.index === slideIndex)
   index = slideIndex
 
+  ViewTools.reloadGraphs(currentSlide.view)
+  window.setBrowserView(currentSlide.view)
+  ViewTools.resizeView(window, currentSlide.view)
+
+  if (currentSlide.config.checkCritical) {
+    checkInterval = setInterval(() => {
+      ViewTools.checkCritical(currentSlide.view)
+    }, 3000)
+  }
+
   show(currentSlide.config)
 }
 
