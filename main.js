@@ -182,6 +182,8 @@ function pause() {
 }
 
 function resume() {
+  if (checkInterval) clearInterval(checkInterval)
+
   message('Carousel resume', 'green')
   isRunning = true
 
