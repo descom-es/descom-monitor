@@ -81,6 +81,7 @@ let window
 
 let timeout
 let checkInterval = null
+let reloadInterval = null
 let slides = []
 let currentSlide
 
@@ -159,15 +160,23 @@ function next(slide) {
 }
 
 function set(slideIndex) {
+  if (checkInterval) clearInterval(checkInterval)
+  if (reloadInterval) clearInterval(reloadInterval)
+
   message('Carousel set', 'magenta')
 
   pause()
+
   currentSlide = slides.find((slide) => slide.index === slideIndex)
   index = slideIndex
 
   ViewTools.reloadGraphs(currentSlide.view)
   window.setBrowserView(currentSlide.view)
   ViewTools.resizeView(window, currentSlide.view)
+
+  reloadInterval = setInterval(() => {
+    ViewTools.reloadGraphs(currentSlide.view)
+  }, 60000)
 
   if (currentSlide.config.checkCritical) {
     checkInterval = setInterval(() => {
@@ -181,11 +190,13 @@ function pause() {
   isRunning = false
 
   if (checkInterval) clearInterval(checkInterval)
+  if (reloadInterval) clearInterval(reloadInterval)
   clearTimeout(timeout)
 }
 
 function resume() {
   if (checkInterval) clearInterval(checkInterval)
+  if (reloadInterval) clearInterval(reloadInterval)
 
   message('Carousel resume', 'green')
   isRunning = true
