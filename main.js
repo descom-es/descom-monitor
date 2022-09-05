@@ -4,26 +4,37 @@ const fs = require('fs')
 const ViewTools = require('./view-tools')
 
 const http = require('http')
-const server = http
-  .createServer(function (req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' })
-    res.write('Descom Monitor Websocket')
-    res.end()
-  })
-  .listen(8080)
+const server = http.createServer().listen(8080)
 const { Server } = require('socket.io')
 const io = new Server(server)
 
 io.on('connection', (socket) => {
   console.log('User Connected')
 
-  socket.on('carousel_pause', () => {
-    pause()
+  socket.emit('state', isRunning)
+  socket.emit(
+    'slides',
+    slides.map((slide) => {
+      return {
+        index: slide.index,
+        config: slide.config,
+      }
+    })
+  )
+
+  socket.on('toggle', () => {
+    console.log(isRunning)
+    if (isRunning) {
+      pause()
+    } else {
+      resume()
+    }
+    socket.emit('state', isRunning)
   })
-  socket.on('carousel_resume', () => {
-    resume()
+  socket.on('set', (index) => {
+    set(index)
   })
-  socket.on('carousel_show', (data) => {
+  socket.on('show', (data) => {
     show(data)
   })
 
@@ -71,16 +82,15 @@ let checkInterval = null
 let slides = []
 let currentSlide
 
+let isRunning = true
+
 app.whenReady().then(() => {
   setup()
   next(slides[0])
 
   // setTimeout(() => {
-  //   pause()
+  //   set(0)
   // }, 7000)
-  // setTimeout(() => {
-  //   resume()
-  // }, 18000)
   // setTimeout(() => {
   //   show({
   //     name: 'PRUEBAAAAAA',
@@ -143,8 +153,18 @@ function next(slide) {
   }, slide.config.interval || defaultInterval)
 }
 
+function set(slideIndex) {
+  message('Carousel set', 'magenta')
+
+  pause()
+  currentSlide = slides.find((slide) => slide.index === slideIndex)
+  index = slideIndex
+  resume()
+}
+
 function pause() {
   message('Carousel pause', 'yellow')
+  isRunning = false
 
   if (checkInterval) clearInterval(checkInterval)
   clearTimeout(timeout)
@@ -152,6 +172,7 @@ function pause() {
 
 function resume() {
   message('Carousel resume', 'green')
+  isRunning = true
 
   next(currentSlide)
 }
@@ -178,6 +199,12 @@ function createSlide(config) {
     config: config,
     view: createView(window, config.url),
   }
+}
+
+function serializableSlides() {
+  return slides.map((slide) => {
+    slide.index, slide.config
+  })
 }
 
 // TODO: TOOLS
