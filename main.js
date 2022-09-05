@@ -33,9 +33,11 @@ io.on('connection', (socket) => {
   })
   socket.on('set', (index) => {
     set(index)
+    socket.emit('state', isRunning)
   })
   socket.on('show', (data) => {
     show(data)
+    socket.emit('state', isRunning)
   })
 
   socket.on('disconnect', () => {
