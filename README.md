@@ -23,3 +23,7 @@ Fill a file named `config.json` with the following content:
   ]
 }
 ```
+
+# Compiling
+
+You can compile the app with `yarn dist`
