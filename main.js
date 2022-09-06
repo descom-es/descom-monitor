@@ -50,6 +50,7 @@ const createWindow = () => {
     width: 800,
     height: 600,
     backgroundColor: '#121212',
+    fullscreen: true,
   })
   return win
 }
