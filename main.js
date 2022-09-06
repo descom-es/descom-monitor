@@ -104,7 +104,9 @@ app.whenReady().then(() => {
 })
 
 function setup() {
-  const config = JSON.parse(fs.readFileSync('config.json'))
+  const config = JSON.parse(
+    fs.readFileSync(app.getPath('appData') + '/descommonitor/config.json')
+  )
 
   const steps = config.steps
   defaultInterval = config.interval

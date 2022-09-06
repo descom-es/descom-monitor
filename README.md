@@ -4,7 +4,7 @@ Kiosk electron app for displaying websites.
 
 # Configuration
 
-Fill a file named `config.json` with the following content:
+Fill a file named `config.json` on `/Users/user/Library/Application Support/descommarket/config.json` (macos) with the following content:
 
 ```json
 {
